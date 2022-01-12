@@ -1,0 +1,3 @@
+name: extractor
+runtime: nodejs
+description: Extracts Furniture Texts and Metadata

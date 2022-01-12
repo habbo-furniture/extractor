@@ -1,0 +1,3 @@
+config:
+  gcp:project: habbo-furniture
+  pulumi:template: gcp-typescript
