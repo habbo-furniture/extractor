@@ -2,7 +2,7 @@ name: Preview or update Pulumi app habbo/extractor/staging
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - '**/*'
 
