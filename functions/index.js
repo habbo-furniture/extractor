@@ -23,6 +23,7 @@ exports.extractor = async (message, context) => {
 
 async function extractFurniture(itemtype, topic) {
     for (const furni of itemtype) {
+        console.log(`Publishing ${furni.classname}`)
         await topic.publishMessage({ json: furni })
     }
 }
