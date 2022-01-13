@@ -1,6 +1,5 @@
 import * as gcp from "@pulumi/gcp"
-
-const location = "EUROPE-WEST4"
+import { location } from "../location"
 
 const bucket = new gcp.storage.Bucket("furni-data", {
     location,
@@ -8,4 +7,4 @@ const bucket = new gcp.storage.Bucket("furni-data", {
     uniformBucketLevelAccess: true
 })
 
-export { bucket, location }
+export { bucket }
