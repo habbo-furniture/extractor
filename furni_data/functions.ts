@@ -3,7 +3,7 @@ import * as pulumi from "@pulumi/pulumi"
 import { furniDataTopic } from "./pubsub"
 import * as archiver from "archiver"
 import * as fs from "fs"
-import { location } from "../location"
+import { location, region } from "../location"
 
 const functionsFolder = __dirname + "/../functions"
 fs.rmSync(functionsFolder + "/node_modules", { recursive: true, force: true })
@@ -32,7 +32,7 @@ new gcp.cloudfunctions.Function("extractor", {
     sourceArchiveBucket: functionsBucket.name,
     sourceArchiveObject: functionsArchive.name,
     entryPoint: "extractor",
-    region: location
+    region
 })
 
 new gcp.cloudscheduler.Job("trigger-extractor", {
@@ -41,5 +41,5 @@ new gcp.cloudscheduler.Job("trigger-extractor", {
         topicName: pubsub.name,
         data: furniDataTopic.name.apply(s => btoa(s))
     },
-    region: location
+    region
 })

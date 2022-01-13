@@ -1,3 +1,3 @@
 const location = "EUROPE-WEST4"
-
-export { location }
+const region = "europe-west4-a"
+export { location, region }
