@@ -9,16 +9,16 @@ const pubsub = new PubSub()
  * @param {object} message The Pub/Sub message.
  * @param {object} context The event metadata.
  */
-exports.extractor = (message, context) => {
+exports.extractor = async (message, context) => {
     const topic = pubsub.topic(Buffer.from(message.data, "base64"))
     console.log(`Start extracting to ${topic.name}`)
-    availableHotels.forEach(async (hotel) => {
+    for (const hotel of availableHotels) {
         console.log(`Extracting ${hotel}`)
         const furniData = `https://www.habbo.${hotel}/gamedata/furnidata_json/1`
         const furnis = await fetch(furniData, { method: "get" }).then(data => data.json());
-        furnis.roomitemtypes.furnitype.forEach(async (furni) => {
+        for (const furni of furnis) {
             console.log(furni)
             await topic.publishMessage({ json: furni })
-        })
-    })
+        }
+    }
 };
