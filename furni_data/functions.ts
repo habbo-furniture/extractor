@@ -21,6 +21,11 @@ const functionsArchive = new gcp.storage.BucketObject("archive", {
 
 const pubsub = new gcp.pubsub.Topic("trigger-extractor")
 
+new gcp.appengine.Application("app", {
+    project: "habbo-furniture",
+    locationId: "eu-west",
+});
+
 new gcp.cloudfunctions.Function("extractor", {
     description: "Extracts furnidata and publish the result in pubsub",
     runtime: "nodejs16",
