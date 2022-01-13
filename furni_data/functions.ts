@@ -33,7 +33,9 @@ new gcp.cloudfunctions.Function("extractor", {
     sourceArchiveBucket: functionsBucket.name,
     sourceArchiveObject: functionsArchive.name,
     entryPoint: "extractor",
-    region
+    region,
+    maxInstances: 1,
+    timeout: 540
 })
 
 new gcp.cloudscheduler.Job("trigger-extractor", {
