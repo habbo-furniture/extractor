@@ -39,8 +39,8 @@ new gcp.cloudfunctions.Function("extractor", {
 new gcp.cloudscheduler.Job("trigger-extractor", {
     schedule: "0 */12 * * *",
     pubsubTarget: {
-        topicName: pubsub.name,
-        data: furniDataTopic.name.apply(s => btoa(s))
+        topicName: pubsub.id,
+        data: furniDataTopic.id.apply(s => btoa(s))
     },
     region,
     timeZone: "Europe/Berlin"
