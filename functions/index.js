@@ -17,6 +17,7 @@ exports.extractor = (message, context) => {
         const furniData = `https://www.habbo.${hotel}/gamedata/furnidata_json/1`
         const furnis = await fetch(furniData, { method: "get" }).then(data => data.json());
         furnis.roomitemtypes.furnitype.forEach(async (furni) => {
+            console.log(furni)
             await topic.publishMessage({ json: furni })
         })
     })
