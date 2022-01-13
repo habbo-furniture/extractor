@@ -11,7 +11,9 @@ const pubsub = new PubSub()
  */
 exports.extractor = (message, context) => {
     const topic = pubsub.topic(Buffer.from(message.data, "base64"))
+    console.log(`Start extracting to ${topic.name}`)
     availableHotels.forEach(async (hotel) => {
+        console.log(`Extracting ${hotel}`)
         const furniData = `https://www.habbo.${hotel}/gamedata/furnidata_json/1`
         const furnis = await fetch(furniData, { method: "get" }).then(data => data.json());
         furnis.roomitemtypes.furnitype.forEach(async (furni) => {
