@@ -4,6 +4,7 @@ import { furniDataTopic } from "./pubsub"
 import * as archiver from "archiver"
 import * as fs from "fs"
 import { location, region } from "../location"
+import { appEngine } from "./app"
 
 const functionsFolder = __dirname + "/../functions"
 fs.rmSync(functionsFolder + "/node_modules", { recursive: true, force: true })
@@ -20,11 +21,6 @@ const functionsArchive = new gcp.storage.BucketObject("archive", {
 });
 
 const pubsub = new gcp.pubsub.Topic("trigger-extractor")
-
-new gcp.appengine.Application("app", {
-    project: "habbo-furniture",
-    locationId: "eu-west",
-});
 
 new gcp.cloudfunctions.Function("extractor", {
     description: "Extracts furnidata and publish the result in pubsub",
@@ -46,5 +42,6 @@ new gcp.cloudscheduler.Job("trigger-extractor", {
         topicName: pubsub.name,
         data: furniDataTopic.name.apply(s => btoa(s))
     },
-    region
+    region,
+    timeZone: "Europe/Berlin"
 })
