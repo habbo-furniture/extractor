@@ -37,7 +37,7 @@ new gcp.cloudscheduler.Job("trigger-extractor", {
     schedule: "0 */12 * * *",
     pubsubTarget: {
         topicName: pubsub.id,
-        data: "0"
+        data: btoa("habbo.furniture")
     },
     region,
     timeZone: "Europe/Berlin"
