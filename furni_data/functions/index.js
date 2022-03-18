@@ -1,16 +1,16 @@
 const { PubSub } = require('@google-cloud/pubsub')
 const fetch = require('node-fetch')
+const process = require('process')
 
 const availableHotels = ["com", "de", "nl", "com.tr", "com.br"]
-
 const pubsub = new PubSub()
+const topic = pubsub.topic(process.env["topic"])
 
 /**
  * @param {object} message The Pub/Sub message.
  * @param {object} context The event metadata.
  */
 exports.extractor = async (message, context) => {
-    const topic = pubsub.topic(Buffer.from(message.data, "base64"))
     console.log(`Start extracting to ${topic.name}`)
     for (const hotel of availableHotels) {
         console.log(`Extracting ${hotel}`)

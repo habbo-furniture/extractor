@@ -4,7 +4,7 @@ import { furniDataTopic } from "./pubsub"
 import { location, region } from "../location"
 import { appEngine } from "./app"
 
-const functionsFolder = __dirname + "/../functions/"
+const functionsFolder = __dirname + "/functions/"
 
 const functionsBucket = new gcp.storage.Bucket("bucket", { location });
 const functionsArchive = new gcp.storage.BucketObject("archive", {
@@ -15,9 +15,12 @@ const functionsArchive = new gcp.storage.BucketObject("archive", {
 const pubsub = new gcp.pubsub.Topic("trigger-extractor")
 
 new gcp.cloudfunctions.Function("extractor", {
-    description: "Extracts furnidata and publish the result in pubsub",
+    description: "Extracts furnidata and publishes the result in pubsub",
     runtime: "nodejs16",
     availableMemoryMb: 128,
+    environmentVariables: {
+        topic: furniDataTopic.id 
+    },
     eventTrigger: {
         eventType: "google.pubsub.topic.publish",
         resource: pubsub.id
@@ -34,7 +37,7 @@ new gcp.cloudscheduler.Job("trigger-extractor", {
     schedule: "0 */12 * * *",
     pubsubTarget: {
         topicName: pubsub.id,
-        data: furniDataTopic.id.apply(s => btoa(s))
+        data: undefined
     },
     region,
     timeZone: "Europe/Berlin"
